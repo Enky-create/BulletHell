@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Spawner.cs" type="Script" id=1]
+[ext_resource path="res://scripts/Spawner.cs" type="Script" id=1]
+[ext_resource path="res://Projectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
 [node name="Spawner" type="Node2D"]
-position = Vector2( 338, 193 )
+position = Vector2( 476, 262 )
 script = ExtResource( 1 )
+projectileScene = ExtResource( 2 )
 
 [node name="Icon" type="Sprite" parent="."]
 position = Vector2( 1, -2 )
@@ -14,5 +16,23 @@ texture = ExtResource( 3 )
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.151
 autostart = true
+
+[node name="SpawnPositions" type="Node2D" parent="."]
+rotation = -0.98262
+
+[node name="SpawnPosition1" type="Node2D" parent="SpawnPositions"]
+position = Vector2( 39, 0 )
+
+[node name="SpawnPosition2" type="Node2D" parent="SpawnPositions"]
+position = Vector2( 1, 39 )
+rotation = 1.5708
+
+[node name="SpawnPosition3" type="Node2D" parent="SpawnPositions"]
+position = Vector2( 0, -42 )
+rotation = 3.14159
+
+[node name="SpawnPosition4" type="Node2D" parent="SpawnPositions"]
+position = Vector2( -40, -2 )
+rotation = 4.71239
 
 [connection signal="timeout" from="Timer" to="." method="onTimerTimeout"]

@@ -25,7 +25,7 @@ public class ObjectPool : Node2D
                 instance = GD.Load<PackedScene>("res://ObjectPool.tscn").Instance() as ObjectPool;
                 instance.InitializePool();
                 // Добавьте этот экземпляр в дерево сцены, чтобы он существовал между сценами
-                Instance.AddToGroup("ObjectPoolGroup");
+                //Instance.AddToGroup("ObjectPoolGroup");
             }
             return instance;
         }

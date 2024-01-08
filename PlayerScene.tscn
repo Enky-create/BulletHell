@@ -257,7 +257,7 @@ _speed = 250.0
 unique_name_in_owner = true
 position = Vector2( 1, -16 )
 frames = SubResource( 10 )
-frame = 1
+frame = 2
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

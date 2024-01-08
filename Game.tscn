@@ -136,8 +136,6 @@ texture = ExtResource( 15 )
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 488, 421 )
 _acceleration = 0.25
-_maxSpeed = 2000.0
-_friction = 0.025
 _minSpeed = 800.0
 _dashSpeed = 2000
 _speed = 200.0
