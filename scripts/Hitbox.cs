@@ -3,11 +3,11 @@ using System;
 
 public class Hitbox : Area2D
 {
-    [Export] private float _damage;
+    [Export] public float Damage{get;set;}
     private CollisionShape2D collisionShape;
     public override void _Ready()
     {
-        _damage=10;
+        Damage=10;
         collisionShape = GetNode<CollisionShape2D>("CollisionShape2D");
         CollisionMask=0;
         CollisionLayer=2;

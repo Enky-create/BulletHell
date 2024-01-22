@@ -8,7 +8,7 @@ public class Projectile : Node2D, IPoolable<Projectile>
     [Export] private float lifetime;
     
     public Vector2 Direction{get;set;} =Vector2.Zero;
-    private Timer timer;
+    public Timer timer;
     private Hitbox hitbox;
     private Area2D impactDetector;
     public ObjectPool<Projectile> Pool{
@@ -21,7 +21,7 @@ public class Projectile : Node2D, IPoolable<Projectile>
         timer = GetNode<Timer>("Timer");
         hitbox = GetNode<Hitbox>("Hitbox");
         impactDetector = GetNode<Area2D>("ImpactDetector");
-        impactDetector.Connect("body_entered", this, "onBodyEntered");
+        impactDetector.Connect("body_entered",this,"OnBodyEntered");
         timer.WaitTime=lifetime;
         timer.Connect("timeout",this,"onTimerTimeout");
 
@@ -32,11 +32,17 @@ public class Projectile : Node2D, IPoolable<Projectile>
         Position+=Direction*speed*delta;
 
     }
+    public void ResetTimer()
+    {
+        timer?.Stop();  // Stop the timer if it's running
+        timer.WaitTime = lifetime;
+        timer?.Start();
+    }
     public void onTimerTimeout()
     {
         ReturnToPool();
     }
-    public void onBodyEntered()
+    public void OnBodyEntered(Node body)
     {
         ReturnToPool();
     }
@@ -44,5 +50,8 @@ public class Projectile : Node2D, IPoolable<Projectile>
     public void ReturnToPool()
     {
         Pool?.ReturnObject(this);
+    }
+    public void OnDraw(){
+        timer.WaitTime=lifetime;
     }
 }

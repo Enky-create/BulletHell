@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://PlayerScene.tscn" type="PackedScene" id=1]
 [ext_resource path="res://DragonBones.tscn" type="PackedScene" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://sprites/PVGames_Infernus_Free/Infernus_Tiles/Infernus_Hellscape_Ground_1.png" type="Texture" id=15]
 [ext_resource path="res://sprites/PVGames_Infernus_Free/Infernus_Tiles/Infernus_Hellscape_Platform_1.png" type="Texture" id=16]
 [ext_resource path="res://BrokenGiant.tscn" type="PackedScene" id=17]
+[ext_resource path="res://Boss.tscn" type="PackedScene" id=18]
 
 [sub_resource type="TileSet" id=1]
 0/name = "Infernus_Ground.png 0"
@@ -133,10 +134,23 @@ position = Vector2( -283, 576 )
 rotation = 0.602139
 texture = ExtResource( 15 )
 
+[node name="StaticBody2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 86, -106 )
+rotation = 0.602139
+
+[node name="StaticBody2D2" parent="." instance=ExtResource( 17 )]
+position = Vector2( 1903, -30 )
+
+[node name="Borders" type="Node2D" parent="."]
+
+[node name="Boss" parent="." instance=ExtResource( 18 )]
+position = Vector2( 1044, 496 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 488, 421 )
 _acceleration = 0.25
-_minSpeed = 800.0
+_maxSpeed = 75.0
+_minSpeed = 75.0
 _dashSpeed = 2000
 _speed = 200.0
 
@@ -149,10 +163,3 @@ limit_top = -450
 limit_right = 2100
 limit_bottom = 1000
 editor_draw_limits = true
-
-[node name="StaticBody2D" parent="." instance=ExtResource( 2 )]
-position = Vector2( 86, -106 )
-rotation = 0.602139
-
-[node name="StaticBody2D2" parent="." instance=ExtResource( 17 )]
-position = Vector2( 1903, -30 )

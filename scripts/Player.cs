@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 public class Player : KinematicBody2D
 {
+    [Export] private float _health;
     [Export] private float _acceleration =0.25f;
     [Export] private float _maxSpeed ;
     [Export] private float _friction = 0.5f;
@@ -158,5 +159,10 @@ public class Player : KinematicBody2D
     private void _on_DashCooldown_timeout()
     {
         canDash = true;
+    }
+    public void TakeDamage(float damage){
+        _health-=damage;
+        sprite.Animation="TakeDamage";
+        //GD.Print("i took damage"+_health);
     }
 }

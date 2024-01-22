@@ -5,26 +5,25 @@
 [ext_resource path="res://icon.png" type="Texture" id=3]
 
 [node name="Spawner" type="Node2D"]
-position = Vector2( 476, 262 )
 script = ExtResource( 1 )
 projectileScene = ExtResource( 2 )
 
 [node name="Icon" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1, -2 )
 texture = ExtResource( 3 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.151
+wait_time = 0.1
 autostart = true
 
 [node name="SpawnPositions" type="Node2D" parent="."]
-rotation = -0.98262
 
 [node name="SpawnPosition1" type="Node2D" parent="SpawnPositions"]
 position = Vector2( 39, 0 )
 
 [node name="SpawnPosition2" type="Node2D" parent="SpawnPositions"]
-position = Vector2( 1, 39 )
+position = Vector2( 0, 39 )
 rotation = 1.5708
 
 [node name="SpawnPosition3" type="Node2D" parent="SpawnPositions"]
@@ -32,7 +31,19 @@ position = Vector2( 0, -42 )
 rotation = 3.14159
 
 [node name="SpawnPosition4" type="Node2D" parent="SpawnPositions"]
-position = Vector2( -40, -2 )
+position = Vector2( -40, 0 )
 rotation = 4.71239
+
+[node name="SpawnPosition5" type="Node2D" parent="SpawnPositions"]
+position = Vector2( -28, -28 )
+
+[node name="SpawnPosition6" type="Node2D" parent="SpawnPositions"]
+position = Vector2( 27, -27 )
+
+[node name="SpawnPosition7" type="Node2D" parent="SpawnPositions"]
+position = Vector2( -28, 28 )
+
+[node name="SpawnPosition8" type="Node2D" parent="SpawnPositions"]
+position = Vector2( 27, 26 )
 
 [connection signal="timeout" from="Timer" to="." method="onTimerTimeout"]

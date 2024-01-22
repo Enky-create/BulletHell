@@ -9,14 +9,20 @@ public interface IPoolable<T>
 }
 public class ObjectPool<T> where T : Node2D, IPoolable<T>
 {
+    private int minCount;
     private readonly PackedScene scene;
     private readonly Queue<T> objects = new Queue<T>();
     private readonly Action<T> onReturnObject;
 
-    public ObjectPool(PackedScene scene, Action<T> onReturnObject = null)
+    public ObjectPool(PackedScene scene,int minCount, Action<T> onReturnObject = null)
     {
+        this.minCount=minCount;
         this.scene = scene;
         this.onReturnObject = onReturnObject ?? DefaultReturnAction;
+        for(int i=0; i<minCount; i++){
+            T newNode = (T)scene.Instance();
+            objects.Enqueue(newNode);
+        }
     }
 
     private void DefaultReturnAction(T obj)
@@ -32,6 +38,7 @@ public class ObjectPool<T> where T : Node2D, IPoolable<T>
         }
         else
         {
+            //GD.Print("new created "+objects.Count);
             // Если в пуле нет объектов, создаем новый из PackedScene
             T newNode = (T)scene.Instance();
             return newNode;
@@ -40,10 +47,12 @@ public class ObjectPool<T> where T : Node2D, IPoolable<T>
 
     public void ReturnObject(T obj)
     {
+       
         // Вызываем пользовательский делегат или используем дефолтный метод
         onReturnObject(obj);
 
         // Возвращаем объект в пул
         objects.Enqueue(obj);
+        //GD.Print("returned "+objects.Count);
     }
 }

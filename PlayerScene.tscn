@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=52 format=2]
 
 [ext_resource path="res://scripts/Player.cs" type="Script" id=1]
 [ext_resource path="res://sprites/EVil Wizard 2/EVil Wizard 2/Sprites/Jump.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://sprites/EVil Wizard 2/EVil Wizard 2/Sprites/Attack2.png" type="Texture" id=6]
 [ext_resource path="res://sprites/EVil Wizard 2/EVil Wizard 2/Sprites/Run.png" type="Texture" id=7]
 [ext_resource path="res://sprites/EVil Wizard 2/EVil Wizard 2/Sprites/Take hit.png" type="Texture" id=8]
+[ext_resource path="res://scripts/HurtBox.cs" type="Script" id=9]
 
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
@@ -243,24 +244,34 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=1]
+radius = 6.0
+height = 18.0
+
+[sub_resource type="CapsuleShape2D" id=42]
+radius = 6.0
+height = 18.0
 
 [node name="Player" type="KinematicBody2D"]
+collision_mask = 0
 script = ExtResource( 1 )
+_health = 20.0
 _acceleration = 0.5
-_maxSpeed = 1500.0
-_friction = 0.01
-_minSpeed = 250.0
+_maxSpeed = 0.5
+_friction = 0.15
+_minSpeed = 0.5
 _dashSpeed = 800
 _speed = 250.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 unique_name_in_owner = true
 position = Vector2( 1, -16 )
+scale = Vector2( 0.552, 0.552 )
 frames = SubResource( 10 )
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -5 )
 shape = SubResource( 1 )
 
 [node name="ShootRay" type="RayCast2D" parent="."]
@@ -273,6 +284,16 @@ wait_time = 0.316
 
 [node name="Tween" type="Tween" parent="."]
 playback_process_mode = 0
+
+[node name="HurtBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2( 0, -5 )
+shape = SubResource( 42 )
 
 [connection signal="timeout" from="ShootCooldown" to="." method="_on_ShootCooldown_timeout"]
 [connection signal="timeout" from="DashCooldown" to="." method="_on_DashCooldown_timeout"]

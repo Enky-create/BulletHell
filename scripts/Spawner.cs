@@ -3,6 +3,7 @@ using Godot.Collections;
 
 public class Spawner : Node2D
 {
+    public bool IsEnable=true;
     [Export]
     private PackedScene projectileScene;
     private Array spawnPositions;
@@ -10,12 +11,14 @@ public class Spawner : Node2D
 
     public override void _Ready()
     {
-        spawnPositions=GetNode("SpawnPositions").GetChildren();
+        spawnPositions = GetNode("SpawnPositions").GetChildren();
         // Создаем объектный пул с PackedScene projectile
-        projectilePool = new ObjectPool<Projectile>(projectileScene,onReturnObject:(Projectile projectile)=>{
+        projectilePool = new ObjectPool<Projectile>(projectileScene,200, onReturnObject: (Projectile projectile) =>
+        {
             projectile.Visible = false;
             projectile.SetProcess(false);
-            projectile.GetParent()?.RemoveChild(projectile);
+            //projectile.GetParent()?.RemoveChild(projectile);
+            
         });
     }
 
@@ -24,26 +27,36 @@ public class Spawner : Node2D
         // Получаем объект из пула
         Projectile projectile = projectilePool.GetObject();
 
+
         // Устанавливаем позицию объекта
         projectile.Position = position;
-
+        
         // Добавляем объект в сцену
         AddChild(projectile);
     }
     public void onTimerTimeout()
     {
-        for(int i=0; i<spawnPositions.Count;i++){
-            var obj=projectilePool.GetObject();
-            obj.Pool=projectilePool;
-            obj.Visible=true;
-            obj.SetProcess(true);
+        if(IsEnable)
+        for (int i = 0; i < spawnPositions.Count; i++)
+        {
+            var obj = projectilePool.GetObject();
             var spawnPosition = (Node2D)spawnPositions[i];
             obj.Position = spawnPosition.GlobalPosition;
-            obj.Direction = (spawnPosition.GlobalPosition-this.GlobalPosition).Normalized();
-            spawnPosition.AddChild(obj);
             
+            obj.Direction = (spawnPosition.GlobalPosition - this.GlobalPosition).Normalized();
+            obj.Pool = projectilePool;
+            obj.Visible = true;
+            obj.SetProcess(true);
+            
+            if(obj.GetParent()==null){
+                spawnPosition.AddChild(obj);
+            }else{
+                obj.ResetTimer();
+            }
+            
+
         }
-   }
+    }
 }
 
 // using Godot;
